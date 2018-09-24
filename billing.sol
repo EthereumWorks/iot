@@ -87,20 +87,20 @@ contract billing {
     }
     
     // add Item to billing contract
-    function addItem(address itemControllerAddress, string itemName, uint itemCost) onlySeller {
+    function addItem(address itemControllerAddress, string itemName, uint itemCost) public  onlySeller {
         items[itemControllerAddress].name = itemName;
         items[itemControllerAddress].cost = itemCost;
     }
 
     // purchase
-    function purchase(address itemControllerAddress) payable {
+    function purchase(address itemControllerAddress) public  payable {
         require (items[itemControllerAddress].cost == msg.value );
         items[itemControllerAddress].paidBy = msg.sender;
         seller.transfer(msg.value);
     }
     
     // purchase check
-    function checkPurchase(address itemControllerAddress ) onlySeller returns (bool) {
+    function checkPurchase(address itemControllerAddress ) public  onlySeller returns (bool) {
         if (items[itemControllerAddress].paidBy!=0) return true; else return false;
     }
     
